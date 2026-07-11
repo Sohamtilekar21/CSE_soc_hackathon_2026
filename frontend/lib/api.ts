@@ -36,6 +36,17 @@ export async function classifyImage(file: File) {
   return res.json();
 }
 
+export async function getWardrobe() {
+  const headers = await getAuthHeaders();
+  const res = await fetch (`${API_URL}/wardrobe`, { headers });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch wardrobe");
+  }
+
+  return res.json();
+}
+
 export async function getHistory() {
   const headers = await getAuthHeaders();
 

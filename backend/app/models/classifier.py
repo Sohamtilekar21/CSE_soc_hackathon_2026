@@ -23,14 +23,15 @@ When you're ready, replace this with something like:
                               std=[0.229, 0.224, 0.225]),
     ])
 
-    def run_inference(image_bytes: bytes) -> tuple[str, float]:
+    def run_inference(image_bytes: bytes) -> tuple[str, float, list[float]]:
         image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
         tensor = _preprocess(image).unsqueeze(0)
         with torch.no_grad():
-            outputs = _model(tensor)
-            probs = torch.softmax(outputs, dim=1)
+            features = _model(tensor)
+            probs = torch.softmax(features, dim=1)
             conf, idx = torch.max(probs, dim=1)
-        return IMAGENET_CLASSES[idx.item()], conf.item()
+        embedding = features.squeeze(0).tolist()
+        return IMAGENET_CLASSES[idx.item()], conf.item(), embedding
 
 Or load a fine-tuned checkpoint / ONNX model / call a hosted inference
 endpoint instead - `run_inference` is the only function the rest of the
@@ -38,7 +39,7 @@ app depends on, so anything can go behind it.
 """
 
 
-def run_inference(image_bytes: bytes) -> tuple[str, float]:
+def run_inference(image_bytes: bytes) -> tuple[str, float, list[float]]:
     """
     Placeholder inference function.
 
@@ -46,6 +47,8 @@ def run_inference(image_bytes: bytes) -> tuple[str, float]:
         image_bytes: raw bytes of the uploaded image.
 
     Returns:
-        (label, confidence) tuple.
+        (label, confidence, embedding) tuple. `embedding` is a list of
+        floats (maps to the `embeddings` float8[] column) - swap in the
+        model's actual feature vector once one is wired up.
     """
-    return "placeholder-label", 0.0
+    return "placeholder-label", 0.0, []

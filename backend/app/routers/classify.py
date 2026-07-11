@@ -21,7 +21,7 @@ async def classify_image(
     image_bytes = await file.read()
 
     # --- placeholder: no model wired up yet ---
-    label, confidence = run_inference(image_bytes)
+    label, confidence, embeddings = run_inference(image_bytes)
 
     storage_path = f"{current_user.id}/{file.filename}"
 
@@ -41,6 +41,7 @@ async def classify_image(
                 "image_path": storage_path,
                 "label": label,
                 "confidence": confidence,
+                "embeddings": embeddings,
             }
         ).execute()
     except Exception as exc:
@@ -50,6 +51,7 @@ async def classify_image(
         "label": label,
         "confidence": confidence,
         "image_path": storage_path,
+        "embeddings": embeddings,
     }
 
 
