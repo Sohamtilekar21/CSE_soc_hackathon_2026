@@ -1,0 +1,24 @@
+body {
+  font-family: system-ui, sans-serif;
+  max-width: 480px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+}
+
+input,
+button {
+  display: block;
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+.error {
+  color: #c0392b;
+  font-size: 0.9rem;
+}
