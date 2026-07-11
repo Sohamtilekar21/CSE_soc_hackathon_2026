@@ -76,6 +76,12 @@ export default function DashboardPage() {
             </p>
           </div>
 
+<Button
+  onClick={() => router.push("/ootd")}
+  className="bg-emerald-500 text-black font-semibold hover:bg-emerald-400"
+>
+  👗 Outfit of the Day
+</Button>
 
           <Button
             onClick={() =>
