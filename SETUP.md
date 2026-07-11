@@ -17,6 +17,7 @@ create table public.classifications (
   image_path text not null,
   label text,
   confidence float,
+  embeddings float8[],
   created_at timestamp with time zone default now()
 );
 
@@ -29,6 +30,13 @@ create policy "Users can view their own classifications"
 create policy "Users can insert their own classifications"
   on public.classifications for insert
   with check (auth.uid() = user_id);
+```
+
+If you already created the table before the `embeddings` column existed, run this
+instead of recreating it:
+
+```sql
+alter table public.classifications add column embeddings float8[];
 ```
 
 4. Grab these from Project Settings → API:
