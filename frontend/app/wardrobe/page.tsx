@@ -8,7 +8,9 @@ type WardrobeItem = {
   image_path: string;
   image_url: string | null;
   label: string;
-  confidence: number;
+  type: string;
+  colour: string;
+  last_used: string | null;
   created_at: string;
 };
 
@@ -251,7 +253,7 @@ export default function WardrobePage() {
 
 
                   <p className="mt-1 text-zinc-300">
-                    {Math.round(item.confidence * 100)}% confidence
+                    {item.type} · {item.colour}
                   </p>
 
 

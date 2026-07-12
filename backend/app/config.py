@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     supabase_jwt_secret: str
     supabase_storage_bucket: str = "images"
     cors_origins: str = "http://localhost:3000,http://localhost:3001,http://localhost:3002"
+    anthropic_api_key: str
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

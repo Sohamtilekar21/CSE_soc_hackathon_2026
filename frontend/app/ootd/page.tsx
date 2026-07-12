@@ -7,7 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function OOTDPage() {
   const [result, setResult] = useState<{
     label: string;
-    confidence: number;
+    type: string;
+    colour: string;
   } | null>(null);
 
   const [error, setError] = useState<string | null>(null);
@@ -131,13 +132,8 @@ export default function OOTDPage() {
                 </p>
 
 
-                <p className="mt-3 text-zinc-300">
-                  Confidence:
-                </p>
-
-
-                <p className="text-xl font-semibold text-white">
-                  {(result.confidence * 100).toFixed(1)}%
+                <p className="mt-3 text-xl font-semibold text-white">
+                  {result.type} · {result.colour}
                 </p>
 
 

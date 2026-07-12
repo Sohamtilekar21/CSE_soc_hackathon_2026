@@ -18,7 +18,7 @@ async def get_wardrobe(
     try:
         result = (
             supabase.table("classifications")
-            .select("id, image_path, label, confidence, created_at")
+            .select("id, image_path, label, type, colour, last_used, created_at")
             .eq("user_id", current_user.id)
             .order("created_at", desc=True)
             .execute()

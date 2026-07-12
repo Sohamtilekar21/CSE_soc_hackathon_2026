@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from app.auth import get_current_user, CurrentUser
 from app.supabase_client import supabase
 from app.config import settings
-from app.models.classifier import run_inference
+from app.claude_client import classify_clothing_item
 
 router = APIRouter(prefix="/classify", tags=["classify"])
 
@@ -20,8 +20,14 @@ async def classify_image(
 
     image_bytes = await file.read()
 
-    # --- placeholder: no model wired up yet ---
-    label, confidence, embeddings = run_inference(image_bytes)
+    try:
+        classification = classify_clothing_item(image_bytes, file.content_type)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Classification failed: {exc}")
+
+    label = classification.get("label", "unknown")
+    item_type = classification.get("type", "unknown")
+    colour = classification.get("colour", "unknown")
 
     storage_path = f"{current_user.id}/{file.filename}"
 
@@ -40,8 +46,8 @@ async def classify_image(
                 "user_id": current_user.id,
                 "image_path": storage_path,
                 "label": label,
-                "confidence": confidence,
-                "embeddings": embeddings,
+                "type": item_type,
+                "colour": colour,
             }
         ).execute()
     except Exception as exc:
@@ -49,9 +55,9 @@ async def classify_image(
 
     return {
         "label": label,
-        "confidence": confidence,
+        "type": item_type,
+        "colour": colour,
         "image_path": storage_path,
-        "embeddings": embeddings,
     }
 
 

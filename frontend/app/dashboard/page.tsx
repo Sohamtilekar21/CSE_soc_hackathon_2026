@@ -13,7 +13,8 @@ export default function DashboardPage() {
 
   const [result, setResult] = useState<{
     label: string;
-    confidence: number;
+    type: string;
+    colour: string;
   } | null>(null);
 
   const [error, setError] = useState<string | null>(null);
@@ -88,6 +89,13 @@ export default function DashboardPage() {
   className="bg-cyan-500 text-black font-semibold hover:bg-cyan-400"
 >
   👕 My Wardrobe
+</Button>
+
+<Button
+  onClick={() => router.push("/outfits/build")}
+  className="bg-fuchsia-500 text-black font-semibold hover:bg-fuchsia-400"
+>
+  ✨ Build an Outfit
 </Button>
 
           <Button
@@ -194,11 +202,7 @@ export default function DashboardPage() {
 
 
                   <p className="text-zinc-300">
-                    Confidence:
-                  </p>
-
-                  <p className="text-xl text-white">
-                    {(result.confidence * 100).toFixed(1)}%
+                    {result.type} · {result.colour}
                   </p>
 
 
