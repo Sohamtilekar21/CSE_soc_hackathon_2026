@@ -83,6 +83,13 @@ export default function DashboardPage() {
   👗 Outfit of the Day
 </Button>
 
+<Button
+  onClick={() => router.push("/wardrobe")}
+  className="bg-cyan-500 text-black font-semibold hover:bg-cyan-400"
+>
+  👕 My Wardrobe
+</Button>
+
           <Button
             onClick={() =>
               signOut().then(() => router.push("/login"))
